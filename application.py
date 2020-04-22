@@ -13,3 +13,14 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 @app.route("/")
 def index():
     return render_template("index.html")
+    
+@socketio.on("connect")
+def test_connect():
+    print(request.sid)
+
+@socketio.on("disconnect")
+def test_connect():
+    print("DISCONNECTED!")
+
+if __name__ == "__main__":
+    socketio.run(app)
