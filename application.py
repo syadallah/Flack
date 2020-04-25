@@ -75,12 +75,13 @@ def joinChannel(data):
         emit('return message', {'messageField': 'has joined the room ' + selectedChannel, 'currentChannel': selectedChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=selectedChannel)
 
 # For receiving messages from clients
-@socketio.on("receive")
-def message():
+@socketio.on("receive message")
+def message(data):
     room = data.get('currentChannel')
+    message = data.get('messageField')
     time = data.get('currentTime')
     user = data.get('user')
-    messagesArchive[room].append([room, time, user]);
+    messagesArchive[room].append([message, room, time, user]);
     emit("return message", {'messageField': message, 'currentChannel': room, 'currentTime': time, 'user': user},)
 if __name__ == "__main__":
     socketio.run(app)
