@@ -39,12 +39,23 @@
                  <div id="channelList" class="list-group">
                  </div>
                  <div class="mt-2 input-group mw-100">
-                     <input id="channelName" class="form-control" autocomplete="off" placeholder="Add channel" autofocus/>
+                     <input id="channelName" class="form-control" autocomplete="off" placeholder="Add channel"/>
                      <div class="input-group-append">
                          <button id="submitChannel" type="button" class="btn btn-primary">Add</button>
                      </div>
                  </div>
              </nav>
+             <!-- Chat contents -->
+             <main class="col-md-6" id="mainContent">
+                    <div class="input-group mt-2" id="messageInput">
+                        <input id="chatInput" class="form-control" autocomplete="off"/>
+                        <div class="input-group-append">
+                            <button id="sendButton" type="button" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+              </main>
+            </div>
+        </div>
      <!-- Pop up display for prompting display name to user -->
      <div class="modal" id="userModal" tabindex="-1" role="dialog">
          <div class="modal-dialog modal-dialog-centered" role="document">
