@@ -49,18 +49,30 @@ def channel(data):
 # For joining a channel
 @socketio.on("join channel")
 def joinChannel(data):
+    currentChannel = data.get('currentChannel')
+
     selectedChannel = data.get('selectedChannel')
     if selectedChannel == 'empty':
         # joining a channel for the first time
-        join_room()
+        join_room(currentChannel)
         try:
-            if messagesArchive[]:
-                messages = list(messagesArchive[])
+            if messagesArchive[currentChannel]:
+                messages = list(messagesArchive[currentChannel])
                 emit('receive previous messages', messages)
         except KeyError:
             emit('alert message', {'message': "Saved channel does not exist, please log off"}, room=request.sid)
 
         emit('return message', {'messageField': 'has joined the room ' + currentChannel, 'currentChannel': currentChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=currentChannel)
+        else:
+        # switching channels
+        leave_room(currentChannel)
+        emit('return message', {'messageField': 'has left the room ' + currentChannel, 'currentChannel': selectedChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=currentChannel)
+        join_room(selectedChannel)
+        # checks if selected deque is not empty
+        if messagesArchive[selectedChannel]:
+            messages = list(messagesArchive[selectedChannel])
+            emit('receive previous messages', messages)
+        emit('return message', {'messageField': 'has joined the room ' + selectedChannel, 'currentChannel': selectedChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=selectedChannel)
 
 if __name__ == "__main__":
     socketio.run(app)
