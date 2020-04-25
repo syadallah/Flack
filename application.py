@@ -46,5 +46,21 @@ def channel(data):
     emit("receive channels", channelList, broadcast=True)
     #emit("return message", channel)
 
+# For joining a channel
+@socketio.on("join channel")
+def joinChannel(data):
+    selectedChannel = data.get('selectedChannel')
+    if selectedChannel == 'empty':
+        # joining a channel for the first time
+        join_room()
+        try:
+            if messagesArchive[]:
+                messages = list(messagesArchive[])
+                emit('receive previous messages', messages)
+        except KeyError:
+            emit('alert message', {'message': "Saved channel does not exist, please log off"}, room=request.sid)
+
+        emit('return message', {'messageField': 'has joined the room ' + currentChannel, 'currentChannel': currentChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=currentChannel)
+
 if __name__ == "__main__":
     socketio.run(app)
