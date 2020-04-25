@@ -29,5 +29,22 @@ def availableChannel():
     channelList = list(messagesArchive)
     emit("receive channels", channelList)
 
+# For adding a new channel to List
+@socketio.on("submit channel")
+def channel(data):
+    channel = data.get('channelName')
+    # Checks if submitted channel exists as a key in dict
+    if channel in messagesArchive.keys():
+        #Channel exists
+        emit('alert message', {'message': "Channel already exists"}, room=request.sid)
+        return False
+    # Creates a new key and initializes with a deque with max length 100, if key already exists, do nothing
+    # Saw on https://docs.quantifiedcode.com/python-anti-patterns/correctness/not_using_setdefault_to_initialize_a_dictionary.html
+    messagesArchive.setdefault(channel, deque([], maxlen=100))
+    # Get keys from dict as a list
+    channelList = list(messagesArchive)
+    emit("receive channels", channelList, broadcast=True)
+    #emit("return message", channel)
+
 if __name__ == "__main__":
     socketio.run(app)
