@@ -25,11 +25,25 @@
              </ul>
          </div>
      </nav>
-     
+
      <!-- Alert -->
            <div class="alert alert-danger fade show" id="alertSystem" role="alert">
                <p id="alertMessage"></p>
            </div>
+     <!-- Actual layout -->
+     <div class="container-fluid">
+         <div class="row">
+             <!-- Left Side bar -->
+             <nav class="col-md-6 bg-light sidebar">
+                 <h2>Channels</h2>
+                 <div id="channelList" class="list-group">
+                 </div>
+                 <div class="mt-2 input-group mw-100">
+                     <input id="channelName" class="form-control" autocomplete="on" placeholder="Add channel" autofocus/>
+                     <div class="input-group-append">
+                         <div id="submitChannel" type="button" class="btn btn-primary">Add</div>
+                 </div>
+             </nav>
      <!-- Pop up display for prompting display name to user -->
      <div class="modal" id="userModal" tabindex="-1" role="dialog">
          <div class="modal-dialog modal-dialog-centered" role="document">
