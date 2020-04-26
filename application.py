@@ -9,6 +9,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
+# Dict with channel names and lists to archive messages
+messagesArchive = {
+    "General": deque([], maxlen=100)
+}
 
 @app.route("/")
 def index():
