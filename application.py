@@ -67,7 +67,7 @@ def joinChannel(data):
             emit('alert message', {'message': "Saved channel does not exist, please log off"}, room=request.sid)
 
         emit('return message', {'messageField': 'has joined the room ' + currentChannel, 'currentChannel': currentChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=currentChannel)
-        else:
+    else:
         # switching channels
         leave_room(currentChannel)
         emit('return message', {'messageField': 'has left the room ' + currentChannel, 'currentChannel': selectedChannel, 'currentTime': data.get('currentTime'), 'user': data.get('user')}, room=currentChannel)
@@ -87,5 +87,14 @@ def message(data):
     user = data.get('user')
     messagesArchive[room].append([message, room, time, user]);
     emit("return message", {'messageField': message, 'currentChannel': room, 'currentTime': time, 'user': user},)
+
+@socketio.on("previous messages")
+def previousMessages(data):
+    channel = data.get('currentChannel')
+    if message in messagesArchive[channel]:
+        emit("receive previous messages", messagesArchive)
+
+# Must add line below because of SocketIO bug: https://github.com/miguelgrinberg/Flask-SocketIO/issues/817
+# Instead of "flask run", application can be run using "python3 application.py"    
 if __name__ == "__main__":
     socketio.run(app)
