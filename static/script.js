@@ -32,13 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Sends message through Enter key if not empty
          document.getElementById('chatInput').addEventListener('keyup', e => {
-             if (e.keyCode === 15) {
+             if (e.keyCode === 13) {
                  const channel = localStorage.getItem('channel');
-                 const message = document.getElementById('chat');
-                 if (channel.value.length > 0) {
+                 const message = document.getElementById('chatInput');
+                 if (message.value.length > 0) {
                      sendMessage(message.value, channel)
-                     message.value = "";
+                     message.value = '';
                  }
              }
+         })
+// Display sent messages in page
+         socket.on('return message', data => {
+             const user = data['user'];
+             const message = data['messageField'];
+             const time = data['currentTime'];
+             createMessage(user, message, time);
          })
 })
