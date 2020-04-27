@@ -11,10 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
           });
       })
 
+// When connected, do:
+          socket.on('connect', () => {
+              // Logs in
+              login();
+          })
+
+          /*
+          For messaging related
+          */
+
+          // Prevents sending empty messages
+          validInput('#sendButton','#chatInput');
 // Listens for clicks and submits message to server
       document.getElementById('sendButton').onclick = () => {
-          const channel = localStorage('channel');
-          const message = document.getElementById('chatInput');
+          const channel = localStorage.getItem('channel');
+          const message = document.getElementById('chatInput').value;
           sendMessage(message, channel);
       }
 })
