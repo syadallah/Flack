@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
           For messaging related
           */
 
-          // Prevents sending empty messages
+// Prevents sending empty messages
           validInput('#sendButton','#chatInput');
 // Listens for clicks and submits message to server
       document.getElementById('sendButton').onclick = () => {
@@ -29,4 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
           const message = document.getElementById('chatInput').value;
           sendMessage(message, channel);
       }
+
+// Sends message through Enter key if not empty
+         document.getElementById('chatInput').addEventListener('keyup', e => {
+             if (e.keyCode === 15) {
+                 const channel = localStorage.getItem('channel');
+                 const message = document.getElementById('chat');
+                 if (channel.value.length > 0) {
+                     sendMessage(message.value, channel)
+                     message.value = "";
+                 }
+             }
+         })
 })
