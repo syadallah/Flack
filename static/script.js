@@ -11,5 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
           });
       })
 
-
+// Listens for clicks and submits message to server
+      document.getElementById('sendButton').onclick = () => {
+          const channel = localStorage('channel');
+          const message = document.getElementById('chatInput');
+          sendMessage(message, channel);
+      }
 })
