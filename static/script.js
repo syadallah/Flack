@@ -49,3 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
              createMessage(user, message, time);
          })
 })
+
+// Display previous messages in the room from messagesArchive
+ socket.on('receive previous messages', data => {
+     document.querySelector('#messagesList').innerHTML = "";
+     data.forEach(message => {
+         // receiving previous messages from server
+         createMessage(message[3], message[0], message[2]);
+     })
+ })
