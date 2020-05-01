@@ -58,3 +58,19 @@ document.addEventListener('DOMContentLoaded', () => {
          createMessage(message[3], message[0], message[2]);
      })
  })
+
+ function createMessage(user, message, time) {
+     const div = document.createElement('div');
+     div.classList.add('container-chat');
+     const span = document.createElement('span');
+     span.classList.add('time-left');
+     span.append(time);
+     const p = document.createElement('p');
+     p.innerHTML = '<strong>' + user + '</strong>' + ' ' + message;
+     div.append(p);
+     div.append(span);
+     document.getElementById('messagesList').append(div);
+     const messagesWindow = document.querySelector('#mainContent');
+     messagesWindow.scrollTop = messagesWindow.scrollHeight;
+     window.scrollTo(0, document.body.scrollHeight);
+ }
