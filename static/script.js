@@ -152,11 +152,11 @@ document.getElementById('channelName').addEventListener('keyup', e => {
 document.getElementById('logoutLink').onclick = logout;
 
 // Sends to server message, channel and time data
-function send(message, channel) {
+function sendMessage(message, channel) {
     let time = new Date().toLocaleString();
-    console.log(time)
+
     let user = localStorage.getItem('username');
-    console.log(user)
+
     socket.emit('receive message', {'messageField': message, 'currentChannel': channel, 'currentTime': time, 'user': user});
     message.value = '';
 }
@@ -169,3 +169,38 @@ function login() {
 
     // List channels
     socket.emit('available channels');
+
+    // Get user name
+    let userExists = localStorage.getItem('username');
+    if (!userExists) {
+        // Shows pop-up dialog for prompting display name
+        $('#userModal').modal({backdrop: 'static', keyboard: false});
+
+        // Do no let empty inputs being posted
+        validInput('#submitName','#displayName');
+
+        // When form is submitted, creates request
+        document.querySelector('#submitName').onclick = () => {
+            const username = document.querySelector('#displayName');
+            localStorage.setItem('username', username.value);
+            username.value = "";
+            logUserData();
+            $('#userModal').modal('hide');
+        }
+
+        document.querySelector('#displayName').addEventListener('keyup', e => {
+            if (e.keyCode === 13) {
+                if (displayName.value.length > 0) {
+                    const username = document.querySelector('#displayName');
+                    localStorage.setItem('username', username.value);
+                    username.value = "";
+                    logUserData();
+                    $('#userModal').modal('hide');
+                }
+            }
+        })
+    } else {
+        // Already logged
+        logUserData();
+    }
+}
