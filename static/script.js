@@ -105,7 +105,6 @@ document.querySelectorAll('.singleChannel').forEach((channel) => {
     if (channel.querySelector('active') == null) {
         // Active channel does not exist
         const storedChannel = localStorage.getItem('channel');
-        console.log(storedChannel)
         const currentChannel = document.querySelector(`[data-channel=${CSS.escape(storedChannel)}]`);
         currentChannel.classList.add('active');
     }
@@ -119,15 +118,33 @@ document.querySelectorAll('.singleChannel').forEach((channel) => {
         // Gets data attribute and selects corresponding element, adding class active to it
         const selectedChannel = channel.getAttribute('data-channel');
         const activeChannel = document.querySelector(`[data-channel=${CSS.escape(selectedChannel)}]`);
-        selectedChannel.classList.append('active');
+        activeChannel.classList.add('active');
         // Sends time and channel data to server to join room
         let currentTime = new Date().toLocaleString();
         const currentChannel = localStorage.getItem('channel');
         const user = localStorage.getItem('username');
-        console.log(user)
         document.querySelector('#messagesList').innerHTML = '';
-        socket.add('join channel', {'selectedChannel': selectedChannel, 'currentTime': currentTime, 'currentChannel': currentChannel, 'user': user});
+        socket.emit('join channel', {'selectedChannel': selectedChannel, 'currentTime': currentTime, 'currentChannel': currentChannel, 'user': user});
         localStorage.setItem('channel', selectedChannel);
     }
 })
+})
+// Do no let empty inputs being posted
+validInput('#submitChannel', '#channelName');
+// Listens for channel name submissions on click
+document.getElementById('submitChannel').onclick = () => {
+    const channelName = document.getElementById('channelName');
+    socket.emit('submit channel', {'channelName': channelName.value});
+    channelName.value = '';
+}
+
+// Listens for channel name submissions on enter key
+document.getElementById('channelName').addEventListener('keyup', e => {
+    if (e.keyCode === 13) {
+        const channelName = document.getElementById('channelName');
+        if (channelName.value.length > 0) {
+            socket.emit('submit channel', {'channelName': channelName.value});
+            channelName.value = '';
+        }
+    }
 })
