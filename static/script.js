@@ -232,3 +232,20 @@ function logout() {
     document.querySelector('#messagesList').innerHTML = "";
     login();
 }
+// Prevents empty inputs being sent in prompts.
+// Input = response from user, button = element that triggers submission
+function validInput(button, input) {
+    // Disables submit button by default
+    document.querySelector(button).disabled = true;
+
+    // Enables submit button only if user typed something on display name input field
+    document.querySelector(input).onkeyup = () => {
+        if (document.querySelector(input).value.length > 0) {
+            document.querySelector(button).disabled = false;
+        } else {
+            document.querySelector(button).disabled = true;
+        }
+
+    }
+}
+})
