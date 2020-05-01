@@ -20,3 +20,9 @@ body {
   float: left;
   color: #999;
 }
+/* Controls chat input  field*/
+#messageInput {
+    position: fixed;
+    bottom: 15px;
+    width: 90vw;
+}
