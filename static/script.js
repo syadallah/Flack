@@ -148,3 +148,24 @@ document.getElementById('channelName').addEventListener('keyup', e => {
         }
     }
 })
+// Listens for clicks on logout button
+document.getElementById('logoutLink').onclick = logout;
+
+// Sends to server message, channel and time data
+function send(message, channel) {
+    let time = new Date().toLocaleString();
+    console.log(time)
+    let user = localStorage.getItem('username');
+    console.log(user)
+    socket.emit('receive message', {'messageField': message, 'currentChannel': channel, 'currentTime': time, 'user': user});
+    message.value = '';
+}
+
+// For activating login modal
+function login() {
+    // If no channel is stored locally, create one
+    if (!localStorage.getItem('channel'))
+        localStorage.setItem('channel', 'General')
+
+    // List channels
+    socket.emit('available channels');
