@@ -204,3 +204,19 @@ function login() {
         logUserData();
     }
 }
+
+function logUserData() {
+    // Logging in
+    const currentChannel = localStorage.getItem('channel');
+    const currentTime = new Date().toLocaleString();
+    console.log(currentTime)
+    const user = localStorage.getItem('username');
+    const message = document.getElementById('welcome').textContent = "Welcome, " + message;
+    socket.emit('join channel', {'currentChannel': currentChannel, 'currentTime': currentTime, 'selectedChannel': 'empty', 'user': user});
+}
+
+// Displays username in navbar
+function createUserNav(message) {
+    // Welcome message
+    document.getElementById('welcome').append('Welcome, ' + user);
+}
