@@ -209,14 +209,26 @@ function logUserData() {
     // Logging in
     const currentChannel = localStorage.getItem('channel');
     const currentTime = new Date().toLocaleString();
-    console.log(currentTime)
     const user = localStorage.getItem('username');
-    const message = document.getElementById('welcome').textContent = "Welcome, " + message;
+    const message = document.getElementById('welcome').textContent = "Welcome, " + user;
     socket.emit('join channel', {'currentChannel': currentChannel, 'currentTime': currentTime, 'selectedChannel': 'empty', 'user': user});
 }
 
 // Displays username in navbar
-function createUserNav(message) {
+function createUserNav(user) {
     // Welcome message
     document.getElementById('welcome').append('Welcome, ' + user);
+}
+// Deletes username data in local storage
+function logout() {
+    // Sends log off message
+    const channel = localStorage.getItem('channel');
+    const message = "logged off"
+    sendMessage(message, channel);
+    // Deleting user  data
+    localStorage.clear();
+    document.getElementById('welcome').innerHTML = "";
+    document.querySelector('#channelList').innerHTML = "";
+    document.querySelector('#messagesList').innerHTML = "";
+    login();
 }
