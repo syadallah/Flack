@@ -90,3 +90,12 @@ socket.on('receive channels', data => {
         a.innerHTML = item;
         document.querySelector('#channelList').append(a);
     })
+    socket.on('alert message', data => {
+        document.getElementById('alertMessage').textContent = data.message;
+        $('#alertSystem').fadeTo(1, 1).show();
+        setTimeout(function() {
+            $("#alertSystem").fadeTo(500, 0).slideUp(500, function(){
+                $(this).hide();
+            });
+        }, 3000);
+    })
