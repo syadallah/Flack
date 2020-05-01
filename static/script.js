@@ -99,3 +99,35 @@ socket.on('receive channels', data => {
             });
         }, 3000);
     })
+
+    // Listens for clicks in each channel in channel list and sends a join signal to server if clicked
+document.querySelectorAll('.singleChannel').forEach((channel) => {
+    if (channel.querySelector('active') == null) {
+        // Active channel does not exist
+        const storedChannel = localStorage.getItem('channel');
+        console.log(storedChannel)
+        const currentChannel = document.querySelector(`[data-channel=${CSS.escape(storedChannel)}]`);
+        currentChannel.classList.add('active');
+    }
+
+    channel.onclick = () => {
+        // Removes previous channel with active class
+        const remove = document.querySelectorAll('.singleChannel');
+        remove.forEach(item => {
+            item.classList.remove('active');
+        })
+        // Gets data attribute and selects corresponding element, adding class active to it
+        const selectedChannel = channel.getAttribute('data-channel');
+        const activeChannel = document.querySelector(`[data-channel=${CSS.escape(selectedChannel)}]`);
+        selectedChannel.classList.append('active');
+        // Sends time and channel data to server to join room
+        let currentTime = new Date().toLocaleString();
+        const currentChannel = localStorage.getItem('channel');
+        const user = localStorage.getItem('username');
+        console.log(user)
+        document.querySelector('#messagesList').innerHTML = '';
+        socket.add('join channel', {'selectedChannel': selectedChannel, 'currentTime': currentTime, 'currentChannel': currentChannel, 'user': user});
+        localStorage.setItem('channel', selectedChannel);
+    }
+})
+})
