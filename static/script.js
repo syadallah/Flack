@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
      const messagesWindow = document.querySelector('#mainContent');
      // messagesWindow.scrollTop = messagesWindow.scrollHeight;
      window.scrollTo(0, document.body.scrollHeight);
-     console.log(user)
  }
 
  /*
@@ -87,7 +86,7 @@ socket.on('receive channels', data => {
     data.forEach(item => {
         const a = document.createElement('a');
         a.classList.add('singleChannel', 'list-group-item', 'list-group-item-action');
+        a.setAttribute('data-channel', item);
         a.innerHTML = item;
         document.querySelector('#channelList').append(a);
-        console.log(a)
     })
