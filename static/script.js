@@ -71,6 +71,23 @@ document.addEventListener('DOMContentLoaded', () => {
      div.append(span);
      document.getElementById('messagesList').append(div);
      const messagesWindow = document.querySelector('#mainContent');
-     messagesWindow.scrollTop = messagesWindow.scrollHeight;
+     // messagesWindow.scrollTop = messagesWindow.scrollHeight;
      window.scrollTo(0, document.body.scrollHeight);
+     console.log(user)
  }
+
+ /*
+For channel related
+*/
+
+// Receiving channel as list and displaying on page
+socket.on('receive channels', data => {
+    document.querySelector('#channelList').innerHTML = '';
+    // Gets array of channels and create html for each one
+    data.forEach(item => {
+        const a = document.createElement('a');
+        a.classList.add('singleChannel', 'list-group-item', 'list-group-item-action');
+        a.innerHTML = item;
+        document.querySelector('#channelList').append(a);
+        console.log(a)
+    })
