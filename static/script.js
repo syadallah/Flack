@@ -126,7 +126,7 @@ document.querySelectorAll('.singleChannel').forEach((channel) => {
         socket.emit('join channel', {'selectedChannel': selectedChannel, 'currentTime': currentTime, 'currentChannel': currentChannel, 'user': user});
         localStorage.setItem('channel', selectedChannel);
     }
-})
+  })
 })
 // Do no let empty inputs being posted
 validInput('#submitChannel', '#channelName');
