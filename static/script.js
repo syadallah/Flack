@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-
+     $('#alertSystem').hide();
 // Connect to websocket
       var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
@@ -42,13 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
              }
          })
 // Display sent messages in page
-         socket.on('return message', data => {
-             const user = data['user'];
-             const message = data['messageField'];
-             const time = data['currentTime'];
-             createMessage(user, message, time);
-         })
-})
+socket.on('return message', data => {
+     const user = data['user'];
+     const message = data['messageField'];
+     const time = data['currentTime'];
+     createMessage(user, message, time);
+ })
 
 // Display previous messages in the room from messagesArchive
  socket.on('receive previous messages', data => {
